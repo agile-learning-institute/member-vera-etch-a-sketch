@@ -6,22 +6,26 @@
     <title>Etch-a-Sketch</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+    <body>
     <h1>Etch-a-Sketch</h1>
-    <div class="header">
-        <h4>Select the grid size</h4>
-        <button id="popup">Select</button>
+    <div class="flex-container">
+        <div class="header">
+            <input type="text" placeholder="Size of Board" value="16" onchange="changeSize(this.value)">
+            <button id="popup">Select size</button>
+        </div>
+    <div class="content">
+        <div class="board"></div>
     </div>
-
-    <div class="grid-container"></div>
 
     <div class="footer">
-        <button>Black</button>
-        <button>Random Color</button>
-        <button>Reset</button>
+        <div class="buttons">
+            <button onclick="changeColor('black')">Black</button>
+            <button onclick="changeColor('random')">Random</button>
+            <button onclick="changeColor('white')">Erase</button>
+            <button onclick="changeColor('grey')">Shade</button>
+            <button onclick="resetBoard">Reset</button>
+        </div>
     </div>
+    </body>
     <script src="index.js"></script>
-</body>
-
-
 </html>
