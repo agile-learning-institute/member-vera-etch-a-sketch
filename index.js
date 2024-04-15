@@ -1,44 +1,74 @@
 let color = "black";
+let click = false;
 
-function populateBoard(size){
-    let board = document.querySelector('.board');
-    let squares = board.querySelectorAll('div');
-    squares.forEach((div) => div.remove());
-    board.style.gridTemplateColumns = `repeat(${size} , 1fr)`;
-    board.style.gridTemplateRows = `repeat(${size} , 1fr)`;
+document.addEventListener("DOMContentLoaded", function(){
+    createBoard(16);
 
-    let amount = size * size;
-    for(let i = 0; i < amount; i++) {
-        let square = document.createElement('div')
-        square.addEventListener('mouseover' , colorSquare);
-        square.style.backgroundColor = 'white';
-        board.insertAdjacentElement("beforeend", square)
+    document.querySelector("body").addEventListener("click", function(e){
+        if(e.target.tagName != "BUTTON"){
+            click = !click;
+            let draw = document.querySelector("#draw");
+            if(click){
+                draw.innerHTML = "Now You Can Draw";
+            }
+            else{
+                draw.innerHTML = "You're Not Allowed";
+            }
+        }
+    }) 
+    
+ let btn_popup = document.querySelector("#popup");
+    btn_popup.addEventListener("click", function(){
+        let size = getSize();
+        createBoard(size);
+    })
+})
+
+
+    function createBoard(size) {
+        let board = document.querySelector(".board");
+
+        board.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
+        board.style.gridTemplateRows = `repeat(${size}, 1fr)`;
+
+
+        let numDivs = size * size;
+
+        for(let i = 0; i < numDivs; i++){
+        let div = document.createElement("div");
+        div.addEventListener("mouseover", colorDiv);
+        board.insertAdjacentElement("beforeend", div);
+        }
+    }
+
+    function getSize() {
+        let input = prompt("Select Board Size");
+        let message = document.querySelector("#message");
+        if(input == ""){
+            message.innerHTML = "Select a Number";
+    }
+    else if (input < 0 || input > 100){
+        message.innerHTML = "Select a number between 1 and 100";
+    }
+    else{
+        message.innerHTML = "Now you can draw!"
+        return input;
     }
 }
-
-populateBoard(16);
-
-function changeSize(input) {
-    if(input >= 2 && input <= 100){
-        populateBoard(input)
+    function colorDiv(){
+        if (click){
+            if(color == "random"){
+        this.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
     }
-   else {
-    console.log("Too Many Squares");
-   }
-}
-function colorSquare() {
-    if(color === 'random') {
-        this.style.backgroundColor = //function for random color?
-}   else {
-    this.style.backgroundColor = color;
+    else{
+        this.style.backgroundColor = 'black';
+    }
 }
 }
-
-function changeColor(choice) {
-    color = choice;
+    function setColor(colorChoice){
+    color = colorChoice;
 }
-function resetBoard() {
-    let board = document.querySelector('.board');
-    let squares = board.querySelectorAll('div');
-    squares.forEach((div) => div.remove());
+    function resetBoard() {
+        let divs = document.querySelectorAll("div")
+        divs.forEach((div) => div.style.backgroundColor = "white")
 }
