@@ -46,6 +46,20 @@ function getRandomColor() {
     return color;
 }
 
+//erase button
+function colorDiv(){
+    if (isDrawingEnabled){
+        if (color === "random") {
+            this.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;  
+        } else if (color === "erase") {
+            this.style.backgroundColor = "white"; // Erase by setting color to white
+        } else {
+            this.style.backgroundColor = color;
+        }
+    }
+}
+
+
 //color based on button click
 function setColor(color) {
     document.getElementById('draw').innerText = color.charAt(0).toUpperCase() + color.slice(1);
