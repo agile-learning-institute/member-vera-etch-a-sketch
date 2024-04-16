@@ -1,74 +1,90 @@
-let color = "black";
-let click = false;
+//elements from the DOM
+const board = document.querySelector('.board');
+const message = document.getElementById('message');
 
-document.addEventListener("DOMContentLoaded", function(){
-    createBoard(16);
-
-    document.querySelector("body").addEventListener("click", function(e){
-        if(e.target.tagName != "BUTTON"){
-            click = !click;
-            let draw = document.querySelector("#draw");
-            if(click){
-                draw.innerHTML = "Now You Can Draw";
-            }
-            else{
-                draw.innerHTML = "You're Not Allowed";
-            }
-        }
-    }) 
+//create the grid
+function createGrid(size) {
+    // Clear the board
+    board.innerHTML = '';
     
- let btn_popup = document.querySelector("#popup");
-    btn_popup.addEventListener("click", function(){
-        let size = getSize();
-        createBoard(size);
-    })
-})
+    //set the grid columns and rows
+    board.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
+    board.style.gridTemplateRows = `repeat(${size}, 1fr)`;
 
+    //create cells and append them to the board
+    for (let i = 0; i < size * size; i++) {
+        const cell = document.createElement('div');
+        cell.classList.add('cell');
+        cell.addEventListener('mouseover', changeColor);
+        board.appendChild(cell);
+    }
+}
 
-    function createBoard(size) {
-        let board = document.querySelector(".board");
+//change the color of the cell
+function changeColor(e) {
+    const color = e.ctrlKey ? 'white' : getColor();
+    e.target.style.backgroundColor = color;
+}
 
-        board.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
-        board.style.gridTemplateRows = `repeat(${size}, 1fr)`;
+//get color based on button click
+function getColor() {
+    const draw = document.getElementById('draw').innerText;
+    if (draw === 'Black') {
+        return 'black';
+    } else if (draw === 'Random') {
+        return getRandomColor();
+    }
+}
 
+//generate random color
+function getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
 
-        let numDivs = size * size;
+//color based on button click
+function setColor(color) {
+    document.getElementById('draw').innerText = color.charAt(0).toUpperCase() + color.slice(1);
+}
 
-        for(let i = 0; i < numDivs; i++){
-        let div = document.createElement("div");
-        div.addEventListener("mouseover", colorDiv);
-        board.insertAdjacentElement("beforeend", div);
+//reset the board
+function resetBoard() {
+    const cells = document.querySelectorAll('.cell');
+    cells.forEach(cell => {
+        cell.style.backgroundColor = 'white';
+    });
+}
+
+//popup button to select grid size
+document.getElementById('popup').addEventListener('click', function() {
+    const size = prompt('Enter grid size (e.g., 16 for a 16x16 grid):');
+    if (size) {
+        if (size < 1 || size > 100) {
+            message.textContent = 'Grid size must be between 1 and 100.';
+            return;
         }
+        createGrid(size);
     }
+});
 
-    function getSize() {
-        let input = prompt("Select Board Size");
-        let message = document.querySelector("#message");
-        if(input == ""){
-            message.innerHTML = "Select a Number";
-    }
-    else if (input < 0 || input > 100){
-        message.innerHTML = "Select a number between 1 and 100";
-    }
-    else{
-        message.innerHTML = "Now you can draw!"
-        return input;
-    }
-}
-    function colorDiv(){
-        if (click){
-            if(color == "random"){
-        this.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
-    }
-    else{
-        this.style.backgroundColor = 'black';
-    }
-}
-}
-    function setColor(colorChoice){
-    color = colorChoice;
-}
-    function resetBoard() {
-        let divs = document.querySelectorAll("div")
-        divs.forEach((div) => div.style.backgroundColor = "white")
-}
+//default grid size
+createGrid(16);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
