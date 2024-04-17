@@ -23,7 +23,7 @@ function createGrid(size) {
 
 //change the color of the cell
 function changeColor(e) {
-    const color = e.ctrlKey ? 'white' : currentColor;
+    const color = getColor();
     e.target.style.backgroundColor = color;
 }
 
@@ -49,15 +49,14 @@ function getRandomColor() {
 }
 
 function setColor(color) {
-    if (color === 'white') {
-        //set the color to white
+    if (color === 'white') { //set the color to white
         document.getElementById('draw').innerText = 'Erase';
     } else if (color === 'random') {
         document.getElementById('draw').innerText = 'Random';
     } else {
         document.getElementById('draw').innerText = color.charAt(0).toUpperCase() + color.slice(1);
     }
-    currentColor = color;
+    currentColor = color === 'random' ? 'random': color;
 }
 
 
