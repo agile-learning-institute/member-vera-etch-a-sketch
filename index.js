@@ -1,13 +1,14 @@
 //elements from the DOM
 const board = document.querySelector('.board');
 const message = document.getElementById('message');
+let color = 'black';
 
 //create the grid
 function createGrid(size) {
-    // Clear the board
+    //clear the board
     board.innerHTML = '';
     
-    //set the grid columns and rows
+    //set grid columns and rows
     board.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
     board.style.gridTemplateRows = `repeat(${size}, 1fr)`;
 
@@ -46,27 +47,29 @@ function getRandomColor() {
     return color;
 }
 
-//erase button
-function colorDiv(){
-    if (isDrawingEnabled){
-        if (color === "random") {
-            this.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;  
-        } else if (color === "erase") {
-            this.style.backgroundColor = "white"; // Erase by setting color to white
-        } else {
-            this.style.backgroundColor = color;
-        }
+/*function setColor(color) {
+    if (color === 'white') {
+        //set the color to white
+        document.getElementById('draw').innerText = 'Erase';
+    } else {
+        document.getElementById('draw').innerText = color.charAt(0).toUpperCase() + color.slice(1);
+    }
+    color = color;
+}*/
+
+
+//erase button functionality
+function setColor(color) {
+    if (color === 'white') {
+        document.getElementById('draw').innerText = 'Erase';
+    } else {
+        document.getElementById('draw').innerText = color.charAt(0).toUpperCase() + color.slice(1);
     }
 }
 
-
-//color based on button click
-function setColor(color) {
-    document.getElementById('draw').innerText = color.charAt(0).toUpperCase() + color.slice(1);
-}
-
-//reset the board
+//erase button
 function resetBoard() {
+    setColor('white'); //set color to white
     const cells = document.querySelectorAll('.cell');
     cells.forEach(cell => {
         cell.style.backgroundColor = 'white';
