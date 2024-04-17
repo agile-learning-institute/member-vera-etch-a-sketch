@@ -34,7 +34,9 @@ function getColor() {
         return 'black';
     } else if (draw === 'Random') {
         return getRandomColor();
-    }
+    } else if (draw === 'Erase') {
+        return 'white';
+}
 }
 
 //generate random color
@@ -47,7 +49,7 @@ function getRandomColor() {
     return color;
 }
 
-/*function setColor(color) {
+function setColor(color) {
     if (color === 'white') {
         //set the color to white
         document.getElementById('draw').innerText = 'Erase';
@@ -55,17 +57,9 @@ function getRandomColor() {
         document.getElementById('draw').innerText = color.charAt(0).toUpperCase() + color.slice(1);
     }
     color = color;
-}*/
-
-
-//erase button functionality
-function setColor(color) {
-    if (color === 'white') {
-        document.getElementById('draw').innerText = 'Erase';
-    } else {
-        document.getElementById('draw').innerText = color.charAt(0).toUpperCase() + color.slice(1);
-    }
 }
+
+
 
 //erase button
 function resetBoard() {
