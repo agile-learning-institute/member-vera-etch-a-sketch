@@ -1,7 +1,7 @@
 //elements from the DOM
 const board = document.querySelector('.board');
 const message = document.getElementById('message');
-let color = 'black';
+let currentColor = 'black'; //global variable
 
 //create the grid
 function createGrid(size) {
@@ -23,20 +23,19 @@ function createGrid(size) {
 
 //change the color of the cell
 function changeColor(e) {
-    const color = e.ctrlKey ? 'white' : getColor();
+    const color = e.ctrlKey ? 'white' : currentColor;
     e.target.style.backgroundColor = color;
 }
 
 //get color based on button click
 function getColor() {
-    const draw = document.getElementById('draw').innerText;
-    if (draw === 'Black') {
-        return 'black';
-    } else if (draw === 'Random') {
+    if (currentColor === 'random') {
         return getRandomColor();
-    } else if (draw === 'Erase') {
+    } else if (currentColor === 'white') {
         return 'white';
-}
+    } else {
+        return currentColor;
+    }
 }
 
 //generate random color
@@ -53,10 +52,12 @@ function setColor(color) {
     if (color === 'white') {
         //set the color to white
         document.getElementById('draw').innerText = 'Erase';
+    } else if (color === 'random') {
+        document.getElementById('draw').innerText = 'Random';
     } else {
         document.getElementById('draw').innerText = color.charAt(0).toUpperCase() + color.slice(1);
     }
-    color = color;
+    currentColor = color;
 }
 
 
